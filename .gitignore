@@ -1,0 +1,10 @@
+__pycache__
+
+virtualenv
+certs
+.vscode
+
+.env
+*.mo
+app.db
+
