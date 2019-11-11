@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+
+{% block app_content  %}
+<div class="row">
+
+    <div class="col-md-8" style="padding-left: 0%;">
+        {% if search_form %}
+            <form class="form form-horizontal" method="post" role="form"
+            action="{{ url_for('main.search_products', list='search', q=q) }}">
+            {{ search_form.hidden_tag() }}
+            {{ wtf.form_field(search_form.q) }}
+            </form>
+        {% endif %}
+    </div>
+    <div class="col-md-2 col-xs-offset-1" style="padding-top:26px;">
+        <button type="button" class="btn btn-info"
+        onclick="location.href='{{ url_for('main.add_product') }}';">
+            <span class="glyphicon glyphicon-plus-sign"></span> Añadir producto
+        </button>
+    </div>
+    <!-- <form method="POST" action=" url_for('main.search', mode=mode) ">
+        <div class="form-group">
+             g.search_form.q(size=100, class='form-control', 
+                placeholder=g.search_form.q.label.text) 
+        </div>
+    </form> -->
+    <div class="col-md-8" style="padding-left: 0%;">
+        {% if list_form %}
+            <form class="form form-horizontal" method="post" role="form"
+            action="{{ url_for('main.search_products', list='list', q=q) }}">
+            {{ list_form.hidden_tag() }}
+            {{ wtf.form_field(list_form.submit, button_map={'submit': 'primary'}) }}
+            </form>
+        {% endif %}
+        <br>
+    </div>
+</div>
+   {% if pagination %}
+        {% if products|length > 0 %}
+        <div align="center">{{ pagination.info }}</div>
+        <div align="center">{{ pagination.links }}</div>
+        
+            <div id="search-elements" class="container"">
+                {% for product in products %}
+                    <div class="row search-element">
+                        <div class="col-md-2">
+                            <h5>Referencia</h5>
+                                <h4 onclick="location.href='{{ url_for('main.edit_product', reference=product.reference) }}';"
+                                style="cursor: pointer;">{{ product.reference }}</h4>
+                        </div>
+                        <div class="col-md-7">
+                            <h5>Nombre</h5>
+                                <h4 onclick="location.href='{{ url_for('main.edit_product', reference=product.reference) }}';"
+                                style="cursor: pointer;">{{ product.name }}</h4>
+                        </div>
+                        <div class="col-xs-2" style="text-align: center; padding: 15px;">
+                            <button type="button" class="btn btn-danger" onclick="deleteProduct({{ product.id }});">
+                                <span class="glyphicon glyphicon-trash"></span> Eliminar producto
+                            </button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        <div align="center">{{ pagination.info }}</div>
+        <div align="center">{{ pagination.links }}</div>
+        {% else %}
+        <div align="center">
+            <h4>No se ha encontrado ningún producto</h4>
+        </div>
+        {% endif %}
+    {% endif %}
+    
+    <nav class="float-button" aria-label="...">
+        <ul class="pager">
+            <li>
+                <a href="{{ '#' }}">Ir arriba</a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}

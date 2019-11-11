@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content  %}
+        {% if form %}
+
+        <form class="form form-horizontal" method="post" role="form" action="">
+            {{ form.hidden_tag() }}
+            <!-- {{ wtf.form_errors(form, hiddens="only") }} -->
+            <div class="row">
+                <h3>Datos del producto</h3>
+                <hr size="100%"/>
+            </div>
+            <div class="row">
+                <div class="col-xs-2">
+                    {{ wtf.form_field(form.reference) }}
+                </div>
+                <div class="col-xs-8 col-xs-offset-1">
+                    {{ wtf.form_field(form.name) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2">
+                    {{ wtf.form_field(form.price) }}
+                </div>
+            </div>
+            <div class="row">
+                <span class="help-block">* Campos obligatorios. Los decimales deben ir separados por un punto</span>
+                <br>
+            </div>
+            <div class="row" style="margin-bottom: 100px;">
+                {{ wtf.form_field(form.submit_add, button_map={'submit_add': 'primary'}) }}
+            </div>
+        </form>
+        {% endif %}
+</div>
+
+    <nav class="float-button" aria-label="...">
+        <ul class="pager">
+            <li>
+                <a href="{{ '#' }}">Ir arriba</a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}

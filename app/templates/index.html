@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content  %}
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <h1>{{ _('Hi, %(username)s', username=current_user.username) }}!</h1>
+            {% if form %}
+                {{ wtf.quick_form(form, button_map={'submit': 'primary'}) }}
+                <br>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- <nav class="float-button" aria-label="...">
+        <ul class="pager">
+            <li>
+                <a href="{{ '#' }}">Ir arriba</a>
+            </li>
+        </ul>
+    </nav> -->
+
+{% endblock %}

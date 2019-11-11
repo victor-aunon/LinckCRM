@@ -1,16 +1,15 @@
 import os
 from dotenv import load_dotenv
 
-
-basedir = os.path.abspath(os.path.dirname(__file__))
-load_dotenv(os.path.join(basedir, '.env'))
+load_dotenv(os.path.join(os.path.abspath(os.path.dirname(__file__)), '.env'))
 
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hjafkuie68867272342hghgj'
+    BASEDIR = os.path.abspath(os.path.dirname(__file__))
 
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'app.db')
+        'sqlite:///' + os.path.join(BASEDIR, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     MAIL_SERVER = os.environ.get('MAIL_SERVER')

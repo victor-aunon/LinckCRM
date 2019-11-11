@@ -1,0 +1,237 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block scripts %}
+    {{ super() }}
+    {# Include super(), which preserves the content from the base template #}
+    {{ moment.include_moment() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <script type = "text/javascript">
+        $(window).on("load", function() {
+            // page is fully loaded, including all frames, objects and images
+            var select = document.getElementsByTagName('select');
+            if (select.length > 1) {
+                localStorage.products = select.length;
+            } else {
+                localStorage.products = Number(1);
+            }
+        
+        })
+
+        function deleteInvoice(invoiceID) {
+            var retVal = confirm("¿Estás seguro de que quieres borrar esta factura?");
+            if( retVal == true ) {
+                $.post('/delete_invoice', {
+                    invoice_id: invoiceID,
+                    }).done(function(response) {
+                        if(response['status'] == 'OK') {
+                            location.reload();
+                        }
+                    }).fail(function() {
+                    });
+            } else {
+                return false;
+            }
+        }
+
+        function showInvoice() {
+            window.open("/factura/temp" + "?" + new Date().getTime(), '_blank');
+        }
+
+        function deleteCompany(companyID) {
+            var retVal = confirm("¿Estás seguro de que quieres borrar este cliente?");
+            if( retVal == true ) {
+                $.post('/delete_company', {
+                    company_id: companyID,
+                    }).done(function(response) {
+                        if(response['status'] == 'OK') {
+                            window.open("{{ url_for("main.index") }}", '_self');
+                        }
+                    }).fail(function() {
+                    });
+            } else {
+                return false;
+            }
+        }
+
+        function deleteProduct(productID) {
+            var retVal = confirm("¿Estás seguro de que quieres borrar este producto?");
+            if( retVal == true ) {
+                $.post('/delete_product', {
+                    product_id: productID,
+                    }).done(function(response) {
+                        if(response['status'] == 'OK') {
+                            location.reload();
+                        }
+                    }).fail(function() {
+                    });
+            } else {
+                return false;
+            }
+        }
+
+        function retrievePrice(productRef, priceElemId) {
+            priceElem = document.getElementById(priceElemId);
+            $.post('/retrieve_product_price', {
+                product_ref: productRef,
+                }).done(function(response) {
+                    if(response['status'] == 'OK') {
+                        priceElem.value = response['price'];
+                    }
+                }).fail(function() {
+                });
+        }
+
+        function addListener(selectId) {
+            var select = document.getElementById(selectId);
+            select.addEventListener('change', function () {
+                retrievePrice(select.value, "price-" + selectId.split("-")[1]);
+            });
+        }
+
+        $(window).on("load", function() {
+            for (let j = 0; j < localStorage.products; j++) {
+                addListener("select-" + (j+1).toString());
+            }
+        })
+
+        function addProduct () {
+            // Fetch product dropdown container object
+            var productNameContainer = document.getElementById("product-name");
+            // Create select element
+            var selectElement = document.createElement("select");
+            selectElement.setAttribute("id", "select-" + (Number(localStorage.products) + 1));
+            selectElement.setAttribute("class", "products-dropdown");
+            selectElement.setAttribute("method", "GET");
+            selectElement.setAttribute("action", "/");
+            {% if products %}
+                {% for product in products %}
+                    var option = document.createElement("option");
+                    option.setAttribute("value", "{{product.reference}}");
+                    option.innerHTML = "{{ product.name }}";
+                    selectElement.appendChild(option);
+                {% endfor %}
+            {% endif %}
+            // Append product select
+            productNameContainer.appendChild(selectElement);
+
+            // Fetch product price container object
+            var productPriceContainer = document.getElementById("product-price");
+            // Create input price element
+            var inputPrice = document.createElement("input");
+            inputPrice.setAttribute("id", "price-" + (Number(localStorage.products) + 1));
+            inputPrice.setAttribute("class", "price");
+            inputPrice.setAttribute("type", "number");
+            inputPrice.setAttribute("min", "0");
+            inputPrice.setAttribute("step", "0.01");
+            inputPrice.setAttribute("lang", "en");
+            // Append input price
+            productPriceContainer.appendChild(inputPrice);
+            inputPrice.setAttribute("value",
+             retrievePrice(selectElement.value, inputPrice.id));
+
+            // Fetch product amount container object
+            var productAmountContainer = document.getElementById("product-amount");
+            // Create input amount element
+            var inputAmount = document.createElement("input");
+            inputAmount.setAttribute("id", "amount-" + (Number(localStorage.products) + 1));
+            inputAmount.setAttribute("class", "amount");
+            inputAmount.setAttribute("type", "number");
+            inputAmount.setAttribute("min", "1");
+            inputAmount.setAttribute("step", "any");
+            inputAmount.setAttribute("lang", "en");
+            inputAmount.setAttribute("value", "1");
+            // Append h4 and input amount
+            productAmountContainer.appendChild(inputAmount);
+            // Add listeners for the new dropdowns
+            addListener(selectElement.id);
+            localStorage.products++;
+        }
+
+        var productsOrder = new Array();
+        var productsDict = new Object();
+
+        function saveProducts(companyIdentifier) {
+            productsOrder = new Array();
+            var products = document.getElementsByClassName('products-dropdown');
+            var prices = document.getElementsByClassName('price');
+            var amounts = document.getElementsByClassName('amount');
+            for(let i = 0; i < products.length; i++) {
+                productsOrder.push(products[i].value);
+                productsDict[products[i].value] = [prices[i].value,
+                 amounts[i].value];
+            }
+            $.post('/save_products', {
+                company_identifier: companyIdentifier,
+                product_order: JSON.stringify(productsOrder),
+                products_dict: JSON.stringify(productsDict),
+                }).done(function(response) {
+                }).fail(function() {
+                });
+        }
+
+    </script>
+{% endblock %}
+
+{% block title %}
+    {% if title %}{{ title }}{% endif %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ url_for('main.index') }}">
+                    <img class="img-responsive img-circle" width="50px" height="50px" src="">
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a id="company_name" href="{{ url_for('main.index') }}"></a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href=""></a></li>
+                    <li><a href=""></a></li>
+                    <li><a href=""></a></li>
+                    <li><a href=""></a></li>
+                    <li><a href=""></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">
+                        <strong>{{ message }}</strong>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+            
+        {# application content needs to be provided in the app_content block #}
+        {% block app_content %}
+        {% endblock %}
+    </div>
+    {% block footer %}
+        <div id="footer">
+           &copy; Copyright
+            <span id="copyright">
+                <script>document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))</script>
+            </span>- Orgullosamente diseñado por 
+            <a href="mailto:hola@victoraunon.com">Víctor Auñón</a>
+        </div>
+    {% endblock %}
+{% endblock %}
+
+

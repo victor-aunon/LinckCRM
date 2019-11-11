@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content  %}
+        {% if form %}
+
+        <form class="form form-horizontal" method="post" role="form" action="">
+            {{ form.hidden_tag() }}
+            <!-- {{ wtf.form_errors(form, hiddens="only") }} -->
+            <div class="row">
+                <h3>Datos de la empresa</h3>
+                <hr size="100%"/>
+            </div>
+            <div class="row">
+                <div class="col-xs-7">
+                    {{ wtf.form_field(form.name) }}
+                </div>
+                <div class="col-xs-3 col-xs-offset-1">
+                    {{ wtf.form_field(form.identifier) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3">
+                    {{ wtf.form_field(form.cif) }}
+                </div>
+                <div class="col-xs-3 col-xs-offset-1">
+                    {{ wtf.form_field(form.phone1) }}
+                </div>
+                <div class="col-xs-3 col-xs-offset-1">
+                    {{ wtf.form_field(form.phone2) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-5">
+                    {{ wtf.form_field(form.address) }}
+                </div>
+                <div class="col-xs-2 col-xs-offset-1">
+                    {{ wtf.form_field(form.city) }}
+                </div>
+                <div class="col-xs-2 col-xs-offset-1">
+                    {{ wtf.form_field(form.postal_code) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3">
+                    {{ wtf.form_field(form.province) }}
+                </div>
+                <div class="col-xs-7 col-xs-offset-1">
+                    {{ wtf.form_field(form.email) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3">
+                    {{ wtf.form_field(form.fax) }}
+                </div>
+            </div>
+            <div class="row">
+                <span class="help-block">* Campos obligatorios</span>
+                <br>
+                
+            </div>
+            <div class="row" style="margin-bottom: 100px;">
+                {{ wtf.form_field(form.submit, button_map={'submit': 'primary'}) }}
+            </div>
+        </form>
+        {% endif %}
+        {% if products %}
+        <h3>Productos contratados</h3>
+        <hr size="100%"/>
+        <div id="product-container">
+            <div class="row product">
+                <div class="col-xs-4" id="product-name">
+                    <h4>Producto</h4>
+                    <select id="select-1" class="products-dropdown" method="GET" action="/">
+                        <option value="{{products[0].reference}}" selected>{{products[0].name}}</option>
+                        {% for product in products[1:] %}
+                            <option value="{{product.reference}}">{{product.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-xs-2 col-xs-offset-1" id="product-price">
+                    <h4>Precio unitario</h4>
+                    <input id="price-1" class="price" type="number" min="0" step="0.01" lang="en" value="{{ products[0].price }}">
+                </div>
+                <div class="col-xs-2 col-xs-offset-1" id="product-amount">
+                    <h4>Cantidad</h4>
+                    <input id="amount-1" class="amount" type="number" min="1" step="any" lang="en" value="1">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <button type="button" class="btn btn-success" onclick="addProduct();">
+                    <span class="glyphicon glyphicon-plus"></span> Añadir producto
+                </button>
+            </div>
+        </div>
+        <span class="help-block">Los decimales deben ir separados por un punto</span>
+        <hr size="100%"/>
+        <div class="row">
+            <button type="button" class="btn btn-primary" onclick="saveProducts({{ identifier }});">
+                <span class="glyphicon glyphicon-save"></span> Guardar productos
+            </button>
+        </div>
+        {% endif %}
+</div>
+
+    <nav class="float-button" aria-label="...">
+        <ul class="pager">
+            <li>
+                <a href="{{ '#' }}">Ir arriba</a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}

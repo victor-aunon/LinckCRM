@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, abort
 from werkzeug.urls import url_parse
 from flask_login import current_user, login_user, logout_user
 from flask_babel import _
@@ -6,8 +6,9 @@ from app import db
 from app.auth import bp
 from app.auth.forms import LoginForm, RegistrationForm, ResetPasswordForm
 from app.auth.forms import ResetPasswordRequestForm
-from app.models import User
+from app.models import User, MyCompany, PermissionsEnum
 from app.auth.email import send_password_reset_email
+from flask_paginate import Pagination
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -41,8 +42,16 @@ def register():
         return redirect(url_for('main.index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
+        user = User(username=form.username.data, email=form.email.data,
+                    permissions=PermissionsEnum.owner)
         user.set_password(form.password.data)
+        db.session.add(user)
+        # Create the compny in the database
+        my_company = MyCompany(name=form.company.data)
+        db.session.add(my_company)
+        # Link this user with the company
+        my_company = MyCompany.query.filter_by(name=form.company.data).first()
+        user.set_company(my_company.id)
         db.session.add(user)
         db.session.commit()
         flash(_('Congratulations, you are now a registered user!'),
