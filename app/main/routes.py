@@ -4,7 +4,7 @@ from flask import render_template, flash, redirect, url_for, request, g, jsonify
 from flask_login import current_user, login_required
 from flask_babel import _, lazy_gettext as _l, get_locale
 from flask_paginate import Pagination
-# from textblob import TextBlob
+from textblob import TextBlob
 from app import db
 from app.main import bp
 # from app.main.forms import EditProfileForm, PostForm, SearchForm, MessageForm
@@ -65,6 +65,17 @@ def index():
     # return render_template('index.html', title=_('Home Page'), form=form, pagination=pagination,
     #                         posts=posts.items)
     return render_template('index.html', title=_('Home Page'))
+
+
+@bp.route('/mycompany', methods=['GET', 'POST'])
+@login_required
+def show_my_company():
+    my_company = MyCompany.query.filter_by(id=current_user.company_id).first()
+    if current_user.permissions not in ['Admin', 'Owner']:
+        flash(_('You are not allowed to edit the company information.'),
+              category='danger')
+        return redirect(url_for('main.index'))
+    return render_template('edit_company.html', title=_('Edit my company'))
 
 
 # @bp.route('/posts', methods=['GET'])

@@ -49,8 +49,7 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     about_me = db.Column(db.String(140))
-    company_id = db.Column(db.String(64),
-                           db.ForeignKey('my_company.id'))
+    company_id = db.Column(db.Integer, db.ForeignKey('my_company.id'))
     tutorials = db.Column(db.Boolean, default=True)
     permissions = db.Column(db.Enum(PermissionsEnum),
                             default=PermissionsEnum.user)
@@ -200,7 +199,10 @@ class MyCompany(db.Model):
     cif = db.Column(db.String(64), index=True, unique=True)
     iva = db.Column(db.Float)
     IBAN = db.Column(db.String(64))
-    users = db.relationship('User', backref='company', lazy='dynamic')
+    users = db.relationship('User', backref='company', lazy='dynamic',
+                            foreign_keys='User.id')
+    customers = db.relationship('Company', backref='vendor', lazy='dynamic',
+                                foreign_keys='Company.id')
 
     def __repr__(self):
         return '<MyCompany {}>'.format(self.name)
@@ -225,11 +227,12 @@ class Company(db.Model):
     client_since = db.Column(db.DateTime, default=datetime.today)
     cif = db.Column(db.String(64), index=True, unique=True)
     IBAN = db.Column(db.String(64))
-    invoices = db.relationship('Invoice', backref='author', lazy='dynamic')
+    vendor = db.Column(db.Integer, db.ForeignKey('my_company.id'))
+    invoices = db.relationship('Invoice', backref='customer', lazy='dynamic')
     products = db.Column(db.PickleType)
 
     def __repr__(self):
-        return '<Company {} ID:{}>'.format(self.name, self.ID)
+        return '<Company {} ID:{}>'.format(self.name, self.identifier)
 
 
 class Email(db.Model):

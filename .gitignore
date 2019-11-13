@@ -3,8 +3,10 @@ __pycache__
 virtualenv
 certs
 .vscode
+.history
 
 .env
 *.mo
 app.db
+LinckCRM.log*
 

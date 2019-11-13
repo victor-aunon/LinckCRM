@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request, abort
+from flask import render_template, flash, redirect, url_for, request
 from werkzeug.urls import url_parse
 from flask_login import current_user, login_user, logout_user
 from flask_babel import _
@@ -8,7 +8,6 @@ from app.auth.forms import LoginForm, RegistrationForm, ResetPasswordForm
 from app.auth.forms import ResetPasswordRequestForm
 from app.models import User, MyCompany, PermissionsEnum
 from app.auth.email import send_password_reset_email
-from flask_paginate import Pagination
 
 
 @bp.route('/login', methods=['GET', 'POST'])
