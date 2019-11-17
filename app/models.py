@@ -186,6 +186,7 @@ class Message(db.Model):
 
 
 class MyCompany(db.Model):
+    __tablename__ = 'my_company'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), index=True, unique=True)
     email = db.Column(db.String(150), index=True, unique=True)
@@ -199,17 +200,15 @@ class MyCompany(db.Model):
     cif = db.Column(db.String(64), index=True, unique=True)
     iva = db.Column(db.Float)
     IBAN = db.Column(db.String(64))
-    users = db.relationship('User', backref='company', lazy='dynamic',
-                            foreign_keys='User.id')
-    customers = db.relationship('Company', backref='vendor', lazy='dynamic',
-                                foreign_keys='Company.id')
+    users = db.relationship('User', backref='mycompany', lazy='dynamic')
+    # customers = db.relationship('Company', backref='vendor', lazy='dynamic')
 
     def __repr__(self):
         return '<MyCompany {}>'.format(self.name)
 
     # Email implementation
-    emails_sent = db.relationship('Email', foreign_keys='Email.recipient_id',
-                                  backref='author', lazy='dynamic')
+    # emails_sent = db.relationship('Email', foreign_keys='Email.recipient_id',
+    #                               backref='author', lazy='dynamic')
 
 
 class Company(db.Model):
@@ -228,7 +227,7 @@ class Company(db.Model):
     cif = db.Column(db.String(64), index=True, unique=True)
     IBAN = db.Column(db.String(64))
     vendor = db.Column(db.Integer, db.ForeignKey('my_company.id'))
-    invoices = db.relationship('Invoice', backref='customer', lazy='dynamic')
+    # invoices = db.relationship('Invoice', backref='customer', lazy='dynamic')
     products = db.Column(db.PickleType)
 
     def __repr__(self):
