@@ -201,14 +201,15 @@ class MyCompany(db.Model):
     iva = db.Column(db.Float)
     IBAN = db.Column(db.String(64))
     users = db.relationship('User', backref='mycompany', lazy='dynamic')
-    # customers = db.relationship('Company', backref='vendor', lazy='dynamic')
+    customers = db.relationship('Company', backref='vendor_company',
+                                lazy='dynamic')
 
     def __repr__(self):
         return '<MyCompany {}>'.format(self.name)
 
     # Email implementation
-    # emails_sent = db.relationship('Email', foreign_keys='Email.recipient_id',
-    #                               backref='author', lazy='dynamic')
+    emails_sent = db.relationship('Email', foreign_keys='Email.sender_id',
+                                  backref='author', lazy='dynamic')
 
 
 class Company(db.Model):
@@ -231,12 +232,16 @@ class Company(db.Model):
     products = db.Column(db.PickleType)
 
     def __repr__(self):
-        return '<Company {} ID:{}>'.format(self.name, self.identifier)
+        return '<Company {} ID:{}>'.format(self.name, self.id)
+
+    # Email implementation
+    emails_received = db.relationship('Email', foreign_keys='Email.recipient_id',
+                                      backref='recipient', lazy='dynamic')
 
 
 class Email(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    # sender_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    sender_id = db.Column(db.Integer, db.ForeignKey('my_company.id'))
     recipient_id = db.Column(db.Integer, db.ForeignKey('company.id'))
     body = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
