@@ -166,7 +166,7 @@ class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sender_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     recipient_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    body = db.Column(db.String(140))
+    body = db.Column(db.String(300))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     language = db.Column(db.String(5))
 
@@ -199,7 +199,7 @@ class MyCompany(db.Model):
     fax = db.Column(db.String(64), index=True, default='')
     cif = db.Column(db.String(64), index=True, unique=True)
     iva = db.Column(db.Float)
-    IBAN = db.Column(db.String(64))
+    IBAN = db.Column(db.String(64), index=True)
     users = db.relationship('User', backref='mycompany', lazy='dynamic')
     customers = db.relationship('Company', backref='vendor_company',
                                 lazy='dynamic')
@@ -214,7 +214,7 @@ class MyCompany(db.Model):
 
 class Company(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    identifier = db.Column(db.Integer, index=True, unique=True)
+    identifier = db.Column(db.String(64), index=True, unique=True)
     name = db.Column(db.String(150), index=True, unique=True)
     email = db.Column(db.String(150), index=True, unique=True)
     address = db.Column(db.String(150))
@@ -226,7 +226,7 @@ class Company(db.Model):
     fax = db.Column(db.String(64), index=True, default='')
     client_since = db.Column(db.DateTime, default=datetime.today)
     cif = db.Column(db.String(64), index=True, unique=True)
-    IBAN = db.Column(db.String(64))
+    IBAN = db.Column(db.String(64), index=True)
     vendor = db.Column(db.Integer, db.ForeignKey('my_company.id'))
     # invoices = db.relationship('Invoice', backref='customer', lazy='dynamic')
     products = db.Column(db.PickleType)
@@ -243,7 +243,7 @@ class Email(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sender_id = db.Column(db.Integer, db.ForeignKey('my_company.id'))
     recipient_id = db.Column(db.Integer, db.ForeignKey('company.id'))
-    body = db.Column(db.String(140))
+    body = db.Column(db.String())
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     language = db.Column(db.String(5))
 
@@ -259,7 +259,7 @@ class Email(db.Model):
 #         return datetime.today().replace(day=1) - timedelta(days=1)
 
 #     id = db.Column(db.Integer, primary_key=True)
-#     ID = db.Column(db.Integer, index=True, unique=True)
+#     identifier = db.Column(db.String(64), index=True, unique=True)
 #     company = db.Column(db.Integer, db.ForeignKey('company.ID'))
 #     base = db.Column(db.Float)
 #     expense = db.Column(db.Float)

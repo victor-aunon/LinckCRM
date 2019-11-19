@@ -1,0 +1,402 @@
+<!-- {% extends 'bootstrap/base.html' %} -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet"> 
+        <!-- {% block scripts %} -->
+        <style type="text/css">
+            /* Define color constants */
+            :root {
+                --theme-darkest-color: #374D80;
+                --theme-dark-color: #2C4685;
+                --theme-medium-color: #587BCC;
+                --theme-light-color: #6E99FF;
+                --theme-lightest-color: rgba(186, 207, 255, 0.7);
+            }
+            /* Define font family along the document */
+            body {
+                font-family: 'Lato',Futura,Helvetica,Segoe,Segoe UI,Arial,sans-serif;
+            }
+            /* Properties for some HTML elements */
+            img {
+                text-align: left;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+
+            a {
+                color: var(--theme-medium-color);
+            }
+
+            table {
+                width: 100%;
+                font-size: 1.2em;
+                line-height: 2em;
+            }
+
+            th {
+                padding-left: 10px;
+                color: white;
+                background-color: var(--theme-medium-color);
+            }
+
+            td {
+                padding-left: 10px;
+                padding: 8px;
+            }
+
+            hr {
+                margin: 0px;
+                border-top: 2px solid var(--theme-medium-color);
+            }
+
+            h3 {
+                margin: 0px;
+                margin-top: 8px;
+                color: var(--theme-dark-color);
+            }
+
+            h4 {
+                font-size: 1.3em;
+                color: var(--theme-dark-color);
+            }
+
+            h5 {
+                font-size: 1.3em;
+            }
+            /* Fit the document in an DIN-A4 document */
+            #page {
+                width: 21cm;
+                height: 29.7cm;
+                margin-left: 5%;
+                margin-right: 10%;
+                border: 1px solid black;
+                position: relative;
+            }
+            /* Color band at header and footer */
+            .header-strip {
+                height: 25px;
+                background-color: var(--theme-dark-color);
+            }
+            /* Define some class and id properties */
+            .top-padded {
+                padding-left: 1px;
+                padding-top: 10px;
+                line-height: 1em;
+            }
+
+            .no-padded {
+                padding: 0px;
+            }
+
+            #customer-name {
+                font-size: 2.8em;
+                line-height: 1em;
+                height: 2em;
+                color: var(--theme-darkest-color);
+            }
+
+            #invoice {
+                font-size: 5em;
+                line-height: 1em;
+                color: var(--theme-medium-color);
+            }
+
+            #invoice-ref {
+                font-size: 1.5em;
+                font-style: italic;
+                padding-top: 45px;
+                color: var(--theme-light-color);
+            }
+             /* Color the odd rows of the table */
+            .table-striped > tbody > tr:nth-child(odd) {
+                background-color: var(--theme-lightest-color);
+            }
+            /* Change table properties */
+            .table > tbody > tr > td {
+                border-width: 0px;
+                padding-left: 10px;
+            }
+            .table
+            .total-col {
+                padding-right: 30px;
+            }
+
+            .total-col {
+                text-align: right;
+                padding-right: 30px;
+            }
+
+            .total-col-header {
+                text-align: right;
+                padding-right: 50px;
+            }
+
+            .total {
+                font-size: 1.3em;
+            }
+
+            .amount {
+                padding-left: 40px;
+            }
+            /* Fit and justify the notes block of the invoice */
+            .notes {
+                text-align: justify;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            /* Anchor the footer div at the bottom of the document */
+            .footer {
+                position: absolute;
+                bottom: 25px;
+                width: 100%;
+            }
+
+            .ecofriendly {
+                color: green;
+                padding: 0px;
+                font-size: 0.8em;
+            }
+
+            .footer-strip {
+                position: absolute;
+                bottom: 0px;
+                height: 25px;
+                background-color: var(--theme-dark-color);
+            }
+
+            .thanks {
+                color: var(--theme-medium-color);
+            }
+
+        </style>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div id="page" class="row">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-1 header-strip"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-1 top-padded">
+                    <p><strong>Factura para:</strong> 124584</p>
+                    <p id="customer-name"><strong>Company Name</strong></p>
+                    <div class="row row-no-gutters">
+                        <div class="col-md-6 top-padded">
+                            <p style="padding-top: 2px;">Azorín, 4B, bajo 1</p>
+                            <p style="padding-top: 2px;">Torrent, 46900</p>
+                            <p style="padding-top: 2px;">Valencia</p>
+                        </div>
+                        <div class="col-md-6 top-padded">
+                            <p><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> CIF 76756755646</p>
+                            <p><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> 6666666666</p>
+                            <a href="mailto:company@example.com">companyqweqe@example.com</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-md-offset-2">
+                    <img src="{{ data.vendor.logo_url }}" alt="" height="80px">
+                    <div class="row row-no-gutters">
+                        <div class="col-md-6 top-padded">
+                            <p style="padding-top: 2px;">Azorín, 4B, bajo 1</p>
+                            <p style="padding-top: 2px;">Torrent, 46900</p>
+                            <p style="padding-top: 2px;">Valencia</p>
+                        </div>
+                        <div class="col-md-6 top-padded">
+                            <p><span class="glyphicon glyphicon-briefcase"
+                                aria-hidden="true"></span> CIF 76756755646</p>
+                            <p><span class="glyphicon glyphicon-earphone"
+                                aria-hidden="true"></span> 6666666666</p>
+                            <a
+                            href="mailto:company@example.com">info@yobusco.com.es
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-1 top-padded">
+                    <p id="invoice"><strong>FACTURA</strong></p>
+                </div>
+                <div class="col-md-3 col-md-offset-1 top-padded" style="display: flex;">
+                    <p id="invoice-ref">#<strong>1254-578</strong></p>
+                </div>
+                <div class="col-md-3 no-padded">
+                    <h3>Período</h3>
+                    <!-- <h5><strong>01/09/2019</strong> - <strong>01/10/2019</strong></h5> -->
+                    <h5>Del <strong>01/09/2019</strong></h5>
+                    <h5>Al <strong>01/10/2019</strong></h5>
+                    <!-- <div class="col-md-6 no-padded">
+                    </div>
+                    <div class="col-md-6 no-padded">
+                    </div> -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 no-padded">
+                    <table class="table-striped">
+                        <tr>
+                            <th>Description</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th class="total-col-header">Total</th>
+                        </tr>
+                        <tr>
+                            <td>Descripción larga producto 1</td>
+                            <td>20.00 €</td>
+                            <td class="amount">1</td>
+                            <td class="total-col">20.00 €</td>
+                        </tr>
+                        <tr>
+                            <td>Producto 2</td>
+                            <td>20.00 €</td>
+                            <td class="amount">1</td>
+                            <td class="total-col">20.00 €</td>
+                        </tr>
+                        <tr>
+                            <td>Producto 3</td>
+                            <td>15.50 €</td>
+                            <td class="amount">1</td>
+                            <td class="total-col">15.50 €</td>
+                        </tr>
+                        <tr>
+                            <td>Producto 4</td>
+                            <td>20.00 €</td>
+                            <td class="amount">1</td>
+                            <td class="total-col">20.00 €</td>
+                        </tr>
+                        <tr>
+                            <td>Producto 5</td>
+                            <td>20.00 €</td>
+                            <td class="amount">1</td>
+                            <td class="total-col">20.00 €</td>
+                        </tr>
+                        <tr>
+                            <td>Producto 6</td>
+                            <td>20.00 €</td>
+                            <td class="amount">1</td>
+                            <td class="total-col">20.00 €</td>
+                        </tr>
+                        <!-- <tr>
+                            <td>Producto 7</td>
+                            <td>20.00 €</td>
+                            <td class="amount">1</td>
+                            <td class="total-col">20.00 €</td>
+                        </tr> -->
+                        <!-- <tr>
+                            <td>Producto 8</td>
+                            <td>20.00 €</td>
+                            <td class="amount">1</td>
+                            <td class="total-col">20.00 €</td>
+                        </tr>
+                        <tr>
+                            <td>Producto 9</td>
+                            <td>20.00 €</td>
+                            <td class="amount">1</td>
+                            <td class="total-col">20.00 €</td>
+                        </tr>
+                        <tr>
+                            <td>Producto 10</td>
+                            <td>20.00 €</td>
+                            <td class="amount">1</td>
+                            <td class="total-col">20.00 €</td>
+                        </tr>
+                        <tr>
+                            <td>Producto 11</td>
+                            <td>20.00 €</td>
+                            <td class="amount">1</td>
+                            <td class="total-col">20.00 €</td>
+                        </tr>
+                        <tr>
+                            <td>Producto 12</td>
+                            <td>20.00 €</td>
+                            <td class="amount">1</td>
+                            <td class="total-col">20.00 €</td>
+                        </tr>
+                        <tr>
+                            <td>Producto 13</td>
+                            <td>20.00 €</td>
+                            <td class="amount">1</td>
+                            <td class="total-col">20.00 €</td> -->
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 col-md-offset-6 no-padded">
+                    <hr size="100%"/>
+                    <table class="table">
+                        <tr>
+                            <td>Base imponible</td>
+                            <td class="total-col"><strong>120.00 €</strong></td>
+                        </tr>
+                        <tr>
+                            <td>IVA 21%</td>
+                            <td class="total-col"><strong>40.00 €</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Descuento</td>
+                            <td class="total-col"><strong>0.00 €</strong></td>
+                        </tr>
+                        <tr class="total">
+                            <th>Total</th>
+                            <th class="total-col"><strong>160.00 €</strong></th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <hr size="100%"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-md-offset-1"> 
+                    <h4><strong>Forma de pago:</strong></h4>
+                </div>
+                <div class="col-md-3"> 
+                    <h5>Domiciliación bancaria</h5>
+                </div>
+                <div class="col-md-2"> 
+                    <h4><strong>Vencimiento:</strong></h4>
+                </div>
+                <div class="col-md-2"> 
+                    <h5>5 Oct 2019</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <hr size="100%"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h4><strong>Notas:</strong></h4>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <p class="notes">Lorem fistrum jarl pecador fistro ese que llega caballo blanco caballo negroorl fistro se calle ustée ese pedazo de diodenoo te voy a borrar el cerito. Ese que llega te va a hasé pupitaa ese pedazo de diodenoo a peich diodeno te voy a borrar el cerito condemor papaar papaar. A peich sexuarl me cago en tus muelas ese hombree se calle ustée ahorarr caballo blanco caballo negroorl te va a hasé pupitaa torpedo condemor. </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row footer">
+                <div class="row">
+                    <div class="col-md-9 col-md-offset-1 thanks">
+                        <h2>Gracias por su confianza.</h2>
+                    </div>
+                </div>
+                <div class="col-md-9 col-md-offset-1 ecofriendly">
+                    Antes de imprimir esta factura, piense bien si es necesario hacerlo. El medio ambiente es cuestión de todos. 
+                </div>
+                <div class="col-md-2">
+                    Página 1 de 1 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-1 footer-strip"></div>
+            </div>
+        </div>
+    </body>
+</html>
