@@ -1,0 +1,240 @@
+
+
+/* Define font family along the document */
+@font-face {
+    font-family: 'Lato';
+    src: url('../static/fonts/Lato-regular.woff2') format('woff2');
+}
+
+body {
+    font-family: 'Lato',Futura,Helvetica,Segoe,Segoe UI,Arial,sans-serif;
+}
+
+/* Properties for some HTML elements */
+img {
+    text-align: left;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+a {
+    color: var(--theme-medium-color);
+}
+
+table {
+    width: 100%;
+    font-size: 1.2em;
+    line-height: 2em;
+}
+
+th {
+    padding-left: 10px;
+    color: white;
+    background-color: var(--theme-medium-color);
+}
+
+td {
+    padding-left: 10px;
+    padding: 8px;
+}
+
+hr {
+    margin: 0px;
+    border-top: 2px solid var(--theme-medium-color);
+}
+
+h3 {
+    margin: 0px;
+    margin-top: 8px;
+    color: var(--theme-dark-color);
+}
+
+h4 {
+    font-size: 1.3em;
+    color: var(--theme-dark-color);
+}
+
+h5 {
+    font-size: 1.3em;
+}
+
+/* Fit the document in an DIN-A4 document */
+#page {
+    width: 21cm;
+    height: 29.7cm;
+    margin-left: 5%;
+    margin-right: 10%;
+    border: 1px solid black;
+    position: relative;
+}
+
+/* Column sizes */
+.row {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto
+    auto auto auto auto auto auto;
+}
+
+.col-md-1 {
+    /* width: 8.33%; */
+    grid-column: span 1;
+}
+.col-md-2 {
+    /* width: 16.66%; */
+    grid-column: span 2;
+}
+.col-md-3 {
+    /* width: 25%; */
+    grid-column: span 3;
+}
+.col-md-4 {
+    /* width: 33.33%; */
+    grid-column: span 4;
+}
+.col-md-5 {
+    /* width: 41.66%; */
+    grid-column: span 5;
+}
+.col-md-6 {
+    /* width: 50%; */
+    grid-column: span 6;
+}
+.col-md-7 {
+    /* width: 58.33%; */
+    grid-column: span 7;
+}
+.col-md-8 {
+    /* width: 66.66%; */
+    grid-column: span 8;
+}
+.col-md-9 {
+    /* width: 75%; */
+    grid-column: span 9;
+}
+.col-md-10 {
+    /* width: 83.33%; */
+    grid-column: span 10;
+}
+.col-md-11 {
+    /* width: 91.66%; */
+    grid-column: span 11;
+}
+.col-md-12 {
+    /* width: 100%; */
+    grid-column: span 12;
+}
+
+/* .col-md-offset-1 {
+    margin-left: 8.33%;
+}
+.col-md-offset-6 {
+    margin-left: 50%;
+} */
+
+ /* Color band at header and footer */
+ .header-strip {
+    height: 25px;
+    background-color: var(--theme-dark-color);
+}
+/* Define some class and id properties */
+.top-padded {
+    padding-left: 1px;
+    padding-top: 10px;
+    line-height: 1em;
+}
+
+.no-padded {
+    padding: 0px;
+}
+
+.date {
+    margin-bottom: 0px;
+}
+
+.vendor-block {
+    margin-left: 3%;
+}
+
+#customer-name {
+    font-size: 2.8em;
+    line-height: 1em;
+    overflow-wrap: break-word;
+    height: 2em;
+    color: var(--theme-darkest-color);
+}
+
+#invoice {
+    font-size: 5em;
+    line-height: 1em;
+    color: var(--theme-medium-color);
+}
+
+#invoice-ref {
+    font-size: 1.5em;
+    font-style: italic;
+    padding-top: 45px;
+    color: var(--theme-light-color);
+}
+ /* Color the odd rows of the table */
+.table-striped > tbody > tr:nth-child(odd) {
+    background-color: var(--theme-lightest-color);
+}
+/* Change table properties */
+.table > tbody > tr > td {
+    border-width: 0px;
+    padding-left: 10px;
+}
+.table
+.total-col {
+    padding-right: 30px;
+}
+
+.total-col {
+    text-align: right;
+    padding-right: 30px;
+}
+
+.total-col-header {
+    text-align: right;
+    padding-right: 50px;
+}
+
+.total {
+    font-size: 1.3em;
+}
+
+.amount {
+    padding-left: 40px;
+}
+/* Fit and justify the notes block of the invoice */
+.notes {
+    text-align: justify;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+/* Anchor the footer div at the bottom of the document */
+.footer {
+    position: absolute;
+    bottom: 25px;
+    width: 100%;
+}
+
+.ecofriendly {
+    color: green;
+    padding: 0px;
+    font-size: 0.8em;
+}
+
+.footer-strip {
+    position: absolute;
+    bottom: 0px;
+    height: 25px;
+    background-color: var(--theme-dark-color);
+}
+
+.thanks {
+    color: var(--theme-medium-color);
+}
+
+
+
