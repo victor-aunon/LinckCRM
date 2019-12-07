@@ -235,7 +235,8 @@ class Company(db.Model):
         return '<Company {} ID:{}>'.format(self.name, self.id)
 
     # Email implementation
-    emails_received = db.relationship('Email', foreign_keys='Email.recipient_id',
+    emails_received = db.relationship('Email',
+                                      foreign_keys='Email.recipient_id',
                                       backref='recipient', lazy='dynamic')
 
 
@@ -275,6 +276,31 @@ class Email(db.Model):
 #     def __repr__(self):
 #         return '<Invoice {} Company:{} Total:{}>'.format(self.ID, self.company,
 #                                                          self.total)
+
+
+class Periodicity(enum.Enum):
+    just_once = 'Just once'
+    hourly = 'Hourly'
+    daily = 'Daily'
+    weekly = 'Weekly'
+    fortnightly = 'Fortnightly'
+    monthly = 'Monthly'
+    quarterly = 'Quarterly'
+    trimesterly = 'Trimesterly'
+    half_yearly = 'Half-yearly'
+    annually = 'Annually'
+    biennially = 'Biennially'
+
+
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    identifier = db.Column(db.String(64), index=True, unique=True)
+    description = db.Column(db.String(400))
+    family = db.Column(db.String(140))
+    cost = db.Column(db.Float)
+    taxes = db.Column(db.Float)
+    periodicity = db.Enum(PermissionsEnum, default=Periodicity.monthly)
+
 
 @login.user_loader
 def load_user(id):

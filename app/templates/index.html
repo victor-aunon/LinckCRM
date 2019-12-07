@@ -9,10 +9,11 @@
                 {{ wtf.quick_form(form, button_map={'submit': 'primary'}) }}
                 <br>
             {% endif %}
-            <a href="{{ url_for('main.my_company') }}">{{ _('My company') }}</a>
-            <a href="{{ url_for('main.edit_my_company') }}">{{ _('Edit my company') }}</a>
+
         </div>
     </div>
+
+
     
     <!-- <nav class="float-button" aria-label="...">
         <ul class="pager">
@@ -22,4 +23,4 @@
         </ul>
     </nav> -->
 
-{% endblock %}
+{% endblock app_content%}

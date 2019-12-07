@@ -2,9 +2,9 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content  %}
-    <h1>{{ _('Register') }}</h1>
     <div class="row justify-content-md-center">
         <div class="col-md-4">
+            <h1>{{ _('Register') }}</h1>
             {{ wtf.quick_form(form, button_map={'submit': 'primary'}) }}
         </div>
     </div>

@@ -16,7 +16,6 @@
             }
             /* Properties for some HTML elements */
             img {
-                text-align: left;
                 margin-top: 20px;
                 margin-bottom: 20px;
             }
@@ -130,6 +129,11 @@
                 margin-right: 2%;
                 display: inline-block;
                 vertical-align: top;
+            }
+
+            /* Put vendor logo on right side */
+            .image-holder {
+                text-align: right;
             }
 
             .company-info-container > div {
@@ -322,7 +326,7 @@
                         <p id="invoice-to"><strong>{{ texts.invoice_to }}</strong> {{ data.customer.identifier }}</p>
                         <p id="customer-name"><strong>{{ data.customer.name }}</strong></p>
                     </div>
-                    <div>
+                    <div class="image-holder">
                         <img src="{{ data.vendor.logo_url }}" alt="" height="100px">
                     </div>
                 </div>

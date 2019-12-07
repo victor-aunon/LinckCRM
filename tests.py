@@ -94,7 +94,7 @@ class ModelsCase(unittest.TestCase):
 
     def test_invoice_printing(self):
         print('Testing the printing of a new invoice')
-        data = {'vendor': {'logo_url': "../static/images/logos/logo.svg",
+        data = {'vendor': {'logo_url': "http://placehold.it/200x100",
                            'address': "Fake street, 123",
                            'city': 'Springfield',
                            'postal_code': 46900,
