@@ -236,7 +236,7 @@
 
 {% block content %}
     <div class="container-fluid">
-        <div class="row justify-content-md-center">
+        <div class="row justify-content-md-center" style="padding: 10px;">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
@@ -263,7 +263,7 @@
                     &copy; Copyright
                     <span id="copyright">
                         <script>document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))</script>
-                    </span>&nbsp;- Orgullosamente diseñado por&nbsp;
+                    </span>&nbsp;- {{ _('Proudly designed by') }}&nbsp;
                     <a href="mailto:hola@victoraunon.com">Víctor Auñón</a>
                 </div>
             </div>

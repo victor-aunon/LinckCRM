@@ -1,5 +1,4 @@
 /* Navigation bar */
-
 .navbar-toggler:active {
     border-color: #fff;
 }
@@ -24,6 +23,61 @@ h1, h2 {
     color: #3d1775;
 }
 
+/* Chat messages */
+.list-group-item.active {
+    z-index: 2;
+    color: #fff;
+    background-color: rgb(131, 75, 163);
+    border-color: #3d1775;
+}
+.bubble-text { 
+    word-break: break-word;
+    display: inline;
+}
+
+.bubble-chat-other {
+    background-color:rgb(131, 75, 163);
+    height:fit-content;
+    float:left;
+    width:fit-content;
+    clear:none;
+    max-width: 80%;
+    padding: 5px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding-right: 15px;
+    position:relative;
+    border-color: #3d1775;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.bubble-chat-me {
+    background-color:rgb(212, 209, 209);
+    height:fit-content;
+    float:right;
+    width:fit-content;
+    clear:none;
+    max-width: 80%;
+    padding: 5px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding-right: 15px;
+    position:relative;
+    border-color: #3d1775;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.messages-container {
+    height: 80%;
+    overflow-y: scroll;
+}
+
+
+/* Footer */
 .footer {
     position: absolute;
     bottom: 0;
@@ -37,3 +91,5 @@ h1, h2 {
 .footer  a {
     color: teal;
 }
+
+

@@ -1,16 +1,16 @@
-from app import db, login
-from datetime import datetime, timedelta
-from time import time
 import jwt
 import json
 import base64
 import os
 import enum
+from datetime import datetime, timedelta
+from time import time
 from flask import current_app, url_for
 from flask_login import UserMixin
 from flask_babel import _
 from werkzeug.security import generate_password_hash, check_password_hash
 from hashlib import md5
+from app import db, login
 
 
 class PaginatedAPIMixin(object):

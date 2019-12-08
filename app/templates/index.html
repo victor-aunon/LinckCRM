@@ -2,15 +2,61 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content  %}
-    <div class="row justify-content-md-center">
-        <div class="col-md-4">
-            <h1>{{ _('Hi, %(username)s', username=current_user.username) }}!</h1>
-            {% if form %}
-                {{ wtf.quick_form(form, button_map={'submit': 'primary'}) }}
-                <br>
-            {% endif %}
-
+    <div class="row justify-content-start">
+        <!-- Users panel -->
+        <div class="col-2">
+            <h3><i class="fa fa-users" aria-hidden="true"></i> {{ _('Users') }}</h3>
+            <div class="list-group" id="list-tab" role="tablist">
+                {% for user in users %}
+                    {% if loop.index0 == 0 %}
+                        <a class="list-group-item list-group-item-action active" id="li-{{ user.id }}" data-toggle="list" href="#li-messages-{{ user.id }}" role="tab"><strong>{{ user.username }} </strong>
+                            <span class="badge badge-success badge-pill"> 14</span></a>
+                    {% else %}
+                        <a class="list-group-item list-group-item-action" id="li-{{ user.id }}" data-toggle="list" href="#li-messages-{{ user.id }}" role="tab"><strong>{{ user.username }} </strong> 
+                            <span class="badge badge-success badge-pill"> 12</span>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
+        <!-- Messages panel -->
+        <div class="col-8 col-xs-offset-1">
+            <h3><i class="fa fa-comments" aria-hidden="true"></i> {{ _('Messages') }}</h3>
+            {% for user_id, values in messages %}
+                {% if values['messages']|length > 0 %}
+                    <div class="tab-content messages-container" id="nav-tabContent">
+                        {% if loop.index0 == 0 %}
+                            <div id="li-messages-{{ user_id }}" class="tab-pane fade in active">
+                                {% for post in values['messages'] %}
+                                    {% include '_post.html' %}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div id="li-messages-{{ user_id }}" class="tab-pane fade">
+                                {% for post in values['messages'] %}
+                                    {% include '_post.html' %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="row justify-content-center">
+                        <h3>{{ _('No messages yet. Chat with a fellow now!') }} <i class="fa fa-paper-plane" aria-hidden="true"></i></h3>
+                    </div>
+                {% endif %}
+                <p>{{ _('Send message to %(username)s', username=values['username']) }}</p>
+                <div class="row justify-content-start">
+                    <!-- TODO form -->
+                    <div class="col-8">
+                        
+                    </div>
+                    <div class="col-2">
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
     </div>
 
 
